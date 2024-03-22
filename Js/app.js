@@ -9,7 +9,6 @@ mainContainer.appendChild(element);
 // ------maincontainerProduct-------------------
 const MainContainerOfProduct = document.createElement("div");
 
-
 MainContainerOfProduct.setAttribute("class", "MainContainerOfProduct");
 
 mainContainer.appendChild(MainContainerOfProduct);
@@ -20,7 +19,6 @@ const DataEntryform = document.createElement("form");
 DataEntryform.setAttribute("class", "DataEntryform");
 // DataEntryform.setAttribute("placeholder", "submit");
 mainContainer.appendChild(DataEntryform);
-
 
 // -------------------------------------------------------dataentryform1DataEntryforms-display---------------------------------------
 
@@ -45,8 +43,23 @@ DataEntryform.appendChild(productName);
 // ----productQuantity------------------------
 let productQuantity = document.createElement("input");
 productQuantity.setAttribute("type", "number");
-productQuantity.setAttribute("placeholder", "product Quantity");
+productQuantity.setAttribute("placeholder", "Product Quantity");
 DataEntryform.appendChild(productQuantity);
+
+// --------value of mass----------------------
+
+let mass = document.createElement("select");
+mass.setAttribute("placeholder", "mass Value");
+DataEntryform.appendChild(mass);
+
+const options = ["kgs", "litres", "gms", "units"];
+for (const index of options) {
+  let Productoptions = document.createElement("option");
+  Productoptions.setAttribute("value", index);
+  Productoptions.text = index;
+
+  mass.appendChild(Productoptions);
+}
 
 // ----submitDataEntry---------------------------
 let submitDataEntry = document.createElement("input");
@@ -61,49 +74,47 @@ function listener(e) {
   e.stopPropagation();
   //------------submit---------------
   if (e.type === "submit") {
-    if(e.target.classList[0] === "DataEntryform"){
-    // -----------productContainer--------------------
-    const productContainer = document.createElement("div");
-    productContainer.setAttribute("class", "productContainer");
-    mainContainer.appendChild(productContainer);
-    productContainer.addEventListener("mouseover",listener);
+    if (e.target.classList[0] === "DataEntryform") {
+      // -----------productContainer--------------------
+      const productContainer = document.createElement("div");
+      productContainer.setAttribute("class", "productContainer");
+      mainContainer.appendChild(productContainer);
+      productContainer.addEventListener("mouseover", listener);
 
-    // ------------productPrices-----------------------------
-    const productPrices = document.createElement("div");
-    productPrices.setAttribute("class", "productPrices");
-    productContainer.appendChild(productPrices);
+      // ------------productPrices-----------------------------
+      const productPrices = document.createElement("div");
+      productPrices.setAttribute("class", "productPrices");
+      productContainer.appendChild(productPrices);
 
-    // ---a.UUID -
-    const UUID = document.createElement("p");
-    UUID.setAttribute("class", "UUID");
-    UUID.innerText = generateUUID();
-    productPrices.appendChild(UUID);
-   // ---b. MRP
-    const Mrp = document.createElement("p");
-    Mrp.setAttribute("class", "Mrp");
-    Mrp.innerText = `MRP : ${MRP.value}`;
-    productPrices.appendChild(Mrp);
-   // ---c. Price
-    const Price = document.createElement("p");
-    Price.setAttribute("class", "Price");
-    Price.innerText = `Price : ${productPrice.value}`;
-    productPrices.appendChild(Price);
-   // ---d. quantity
-    const nameAndQuantity = document.createElement("p");
-    nameAndQuantity.setAttribute("class", "nameAndQuantity");
-    nameAndQuantity.innerText = `Quantity : ${productQuantity.value}`;
-    productPrices.appendChild(nameAndQuantity);
-
-    MRP.value = "";
-    productPrice.value = "";
-    productName.value = "";
-    productQuantity.value = "";
-
+      // ---a.UUID -
+      const UUID = document.createElement("p");
+      UUID.setAttribute("class", "UUID");
+      UUID.innerText = generateUUID();
+      productPrices.appendChild(UUID);
+      // ---b. MRP
+      const Mrp = document.createElement("p");
+      Mrp.setAttribute("class", "Mrp");
+      Mrp.innerText = `MRP ₹: ${MRP.value}`;
+      productPrices.appendChild(Mrp);
+      // ---c. Price
+      const Price = document.createElement("p");
+      Price.setAttribute("class", "Price");
+      Price.innerText = `Price ₹: ${productPrice.value}`;
+      productPrices.appendChild(Price);
+      // ---d. quantity
+      const nameAndQuantity = document.createElement("p");
+      nameAndQuantity.setAttribute("class", "nameAndQuantity");
+      nameAndQuantity.innerText = `Quantity : ${productQuantity.value}${mass.value}`;
+      productPrices.appendChild(nameAndQuantity);
+      MRP.value = "";
+      productPrice.value = "";
+      productName.value = "";
+      productQuantity.value = "";
+    }
   }
-}
 
   // -------------MouseOver-------------------
-      if(e.type === "mouseover"){
+  if (e.type === "mouseover") {
     const productcontainerv1 = e.currentTarget;
     const btnContainer1 = productcontainerv1.querySelector(".buttonContainer");
 
@@ -116,96 +127,113 @@ function listener(e) {
       editbutton.setAttribute("class", "editButton");
       editbutton.innerText = "Edit";
       btnContainer1.appendChild(editbutton);
-      editbutton.addEventListener("click",listener);
+      editbutton.addEventListener("click", listener);
 
       //---delete
       const deletebutton = document.createElement("button");
-      deletebutton.setAttribute("class", "delteButton");
+      deletebutton.setAttribute("class", "deleteButton");
       deletebutton.innerText = "Delete";
       btnContainer1.appendChild(deletebutton);
+      deletebutton.addEventListener("click", listener);
     }
-    }
+  }
 
   // --------------ON CLICK--------------------
-if (e.type === "click") {
-    if(e.target.classList[0] === "editButton"){
-    const productContainerVar2 = e.currentTarget.parentElement.parentElement;
+  if (e.type === "click") {
+    if (e.target.classList[0] === "editButton") {
+      const productContainerVar2 = e.currentTarget.parentElement.parentElement;
 
-    const innerItems = productContainerVar2.querySelectorAll(".productPrices > *");
+      const innerItems =
+        productContainerVar2.querySelectorAll(".productPrices > *");
 
-    // -----------PopEditContainer--connected to main---------
-    const PopEditContainer = document.createElement("div");
-    PopEditContainer.setAttribute("class", "container");
-    mainContainer.appendChild(PopEditContainer);
+      // -----------PopEditContainer--connected to main---------
+      const PopEditContainer = document.createElement("div");
+      PopEditContainer.setAttribute("class", "container");
+      mainContainer.appendChild(PopEditContainer);
 
-    // ------------formPopcontainer--connected to popEdit-----------------------
-    const formPopContainer = document.createElement("form");
-    formPopContainer.setAttribute("class", "formPopContainer");
-    PopEditContainer.appendChild(formPopContainer);
+      // ------------formPopcontainer--connected to popEdit-----------------------
+      const formPopContainer = document.createElement("form");
+      formPopContainer.setAttribute("class", "formPopContainer");
+      PopEditContainer.appendChild(formPopContainer);
 
+      // ------------1.CancelPopEdit-------------------
+      const CancelPopEdit = document.createElement("button");
+      CancelPopEdit.setAttribute("class", "cancelContainer");
+      CancelPopEdit.innerText = "X";
+      formPopContainer.appendChild(CancelPopEdit);
+      CancelPopEdit.addEventListener("click", listener);
 
-    // ------------1.CancelPopEdit-------------------
-    const CancelPopEdit = document.createElement("button");
-    CancelPopEdit.setAttribute("class", "cancelContainer");
-    CancelPopEdit.innerText = "X";
-    formPopContainer.appendChild(CancelPopEdit);
-    CancelPopEdit.addEventListener("click",listener);
+      // -----------2.mrpPopEdit----------------------------
+      const mrpPopEdit = document.createElement("input");
+      mrpPopEdit.setAttribute("type", "number");
+      mrpPopEdit.setAttribute("placeholder", "MRP");
+      mrpPopEdit.setAttribute("class", "mrpPopEdit");
+      formPopContainer.appendChild(mrpPopEdit);
+      // --------- 3.pricePopEdit --------------
+      const pricePopEdit = document.createElement("input");
+      pricePopEdit.setAttribute("type", "number");
+      pricePopEdit.setAttribute("placeholder", "Product Price");
+      pricePopEdit.setAttribute("class", "pricePopEdit");
+      formPopContainer.appendChild(pricePopEdit);
+      //-----------4.namePopEdit-----------------
+      const namePopEdit = document.createElement("input");
+      namePopEdit.setAttribute("type", "text");
+      namePopEdit.setAttribute("placeholder", "Product Name");
+      namePopEdit.setAttribute("class", "namePopEdit");
+      formPopContainer.appendChild(namePopEdit);
+      //----------5.quantityPopEdit--------------
+      const quantityPopEdit = document.createElement("input");
+      quantityPopEdit.setAttribute("type", "number");
+      quantityPopEdit.setAttribute("placeholder", "Product Quantity");
+      quantityPopEdit.setAttribute("class", "quantityPopEdit");
+      formPopContainer.appendChild(quantityPopEdit);
+      // ---------6.mass----------------------
 
-  
-    // -----------2.mrpPopEdit----------------------------
-    const mrpPopEdit = document.createElement("input");
-    mrpPopEdit.setAttribute("type", "number");
-    mrpPopEdit.setAttribute("placeholder", "MRP");
-    mrpPopEdit.setAttribute("class", "mrpPopEdit");
-    formPopContainer.appendChild(mrpPopEdit);
-    // --------- 3.pricePopEdit --------------
-    const pricePopEdit = document.createElement("input");
-    pricePopEdit.setAttribute("type", "number");
-    pricePopEdit.setAttribute("placeholder", "Product Price");
-    pricePopEdit.setAttribute("class", "pricePopEdit");
-    formPopContainer.appendChild(pricePopEdit);
-    //-----------4.namePopEdit-----------------
-    const namePopEdit = document.createElement("input");
-    namePopEdit.setAttribute("type", "text");
-    namePopEdit.setAttribute("placeholder", "Product Name");
-    namePopEdit.setAttribute("class", "namePopEdit");
-    formPopContainer.appendChild(namePopEdit);
-    //----------5.quantityPopEdit--------------
-    const quantityPopEdit = document.createElement("input");
-    quantityPopEdit.setAttribute("type", "number");
-    quantityPopEdit.setAttribute("placeholder", "Product Quantity");
-    quantityPopEdit.setAttribute("class", "quantityPopEdit");
-    formPopContainer.appendChild(quantityPopEdit);
-    // ---------6.submitPopEdit--------------
-    const submitPopEdit = document.createElement("input");
-    submitPopEdit.setAttribute("type", "submit");
-    submitPopEdit.setAttribute("class", "submitBtn");
-    formPopContainer.appendChild(submitPopEdit);
+      const massPopEdit = document.createElement("select");
+      massPopEdit.setAttribute("placeholder", "Mass value");
+      massPopEdit.setAttribute("class", "massPopEdit");
+      formPopContainer.appendChild(massPopEdit);
 
-    formPopContainer.addEventListener("submit", (e) => {
-      e.preventDefault();
-      innerItems.forEach((item) => {
-        if (item.classList.contains("Mrp")) {
-          item.innerText = `MRP: ${mrpPopEdit.value}`;
-        }
-        if (item.classList.contains("Price")) {
-          item.innerText = `₹ ${pricePopEdit.value} only`;
-        }
-        if (item.classList.contains("nameAndQuantity")) {
-          item.innerText = `${namePopEdit.value}, ${quantityPopEdit.value} gm`;
-        }
-      })
-      mainContainer.style.opacity = "1";
+      const optionsPopEdit = ["kgs", "litres", "gms", "units"];
+      for (const index of optionsPopEdit) {
+        let Productoptions = document.createElement("option");
+        Productoptions.setAttribute("value", index);
+        Productoptions.text = index;
+        massPopEdit.appendChild(Productoptions);
+      }
+      // ---------7.submitPopEdit--------------
+      const submitPopEdit = document.createElement("input");
+      submitPopEdit.setAttribute("type", "submit");
+      submitPopEdit.setAttribute("class", "submitBtn");
+      formPopContainer.appendChild(submitPopEdit);
+
+      formPopContainer.addEventListener("submit", (e) => {
+        e.preventDefault();
+        innerItems.forEach((item) => {
+          if (item.classList.contains("Mrp")) {
+            item.innerText = `MRP: ${mrpPopEdit.value}`;
+          }
+          if (item.classList.contains("Price")) {
+            item.innerText = `₹${pricePopEdit.value} only`;
+          }
+          if (item.classList.contains("nameAndQuantity")) {
+            item.innerText = `${namePopEdit.value}, ${quantityPopEdit.value} ${massPopEdit.value}`;
+          }
+        });
+        mainContainer.style.opacity = "1";
         PopEditContainer.remove();
-    })
-  }
-  if(e.target.innerHTML === "X"){
-    console.log(e.target.innerHTML);
-  const  popUpContainer = document.querySelector(".container")
-  popUpContainer.remove()
+      });
+    }
+    if (e.target.innerHTML === "X") {
+      const popUpContainer = document.querySelector(".container");
+      popUpContainer.remove();
+    }
 
-}
-}
+    if (e.target.innerText === "Delete") {
+      const DeleteContainer = document.querySelector(".productContainer");
+      DeleteContainer.remove();
+    }
+  }
 }
 function generateUUID() {
   const time = new Date();
