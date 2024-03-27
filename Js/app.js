@@ -57,7 +57,6 @@ for (const index of options) {
   let Productoptions = document.createElement("option");
   Productoptions.setAttribute("value", index);
   Productoptions.text = index;
-
   mass.appendChild(Productoptions);
 }
 
